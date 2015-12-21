@@ -7,13 +7,26 @@ var parsem = require('parse-messy-time')
 var minimist = require('minimist')
 
 var argv = minimist(process.argv.slice(2))
-var reduce = null
-if (argv.c === 'sum') reduce = sum
+var reduce = {
+  list: list,
+  sum: sum,
+  product: product
+}[argv.c] || list
 
 function sum (args, cb) {
   cb(null, args.reduce(function (sum, arg) {
     return sum + Number(arg)
   }, 0))
+}
+
+function product (args, cb) {
+  cb(null, args.reduce(function (p, arg) {
+    return p * Number(arg)
+  }, 1))
+}
+
+function list (args, cb) {
+  cb(null, args.join(' '))
 }
 
 var weeks = {}

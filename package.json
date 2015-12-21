@@ -1,10 +1,10 @@
 {
-  "name": "weekly",
+  "name": "timely",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "bin": {
-    "weekly": "bin/cmd.js"
+    "timely": "bin/cmd.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
