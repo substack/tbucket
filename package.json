@@ -1,0 +1,22 @@
+{
+  "name": "weekly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "weekly": "bin/cmd.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "parse-messy-time": "^1.2.2",
+    "split2": "^1.0.0",
+    "strftime": "^0.9.2",
+    "through2": "^2.0.0"
+  }
+}
