@@ -8,18 +8,19 @@ var parset = require('parse-messy-time')
 var minimist = require('minimist')
 
 var argv = minimist(process.argv.slice(2), {
-  boolean: [ 'm', 'w', 'd' ],
-  alias: { m: 'month', w: 'week', d: 'day' }
+  alias: { s: 'separator' },
+  string: [ 'separator' ],
+  default: { separator: '/\\s+/' }
 })
-var time = argv._.join(' ')
-if (argv.month) {
-  time = 'every month'
-} else if (argv.week) {
-  time = 'every sunday'
-} else if (argv.day) {
-  time = 'every day'
-}
+var timestr = argv._.join(' ')
+var time = 'every ' + ({ week: 'sunday' }[timestr] || timestr)
 var buckets = {}
+
+var flags = /\/(\w*)$/.exec(argv.separator)[1]
+var sep = /^\/.*\/\w*$/.test(argv.separator)
+  ? RegExp(argv.separator.replace(/^\/|\/\w*$/g, ''), flags)
+  : String(argv.separator)
+var delim = RegExp(sep.source, flags + 'g')
 
 process.stdin.on('error', function () {})
 process.stdin
@@ -28,14 +29,21 @@ process.stdin
   .pipe(process.stdout)
 
 function write (line, enc, next) {
-  var parts = line.toString().split(/\s+/)
+  line = line.toString()
+  var parts = line.split(sep)
+  var delims = line.match(delim)
   var p = parse(time)
   var pt = parset(parts[0])
-  var t = p.prev(pt)
+  var t = p.prev(parts[0])
   if (p.next(t).toISOString() === pt.toISOString()) {
     t = pt
   }
   var stamp = strftime('%F', t)
   if (!buckets[stamp]) buckets[stamp] = []
-  next(null, stamp + ' ' + parts.slice(1).join(' ') + '\n')
+
+  var res = [ stamp ]
+  for (var i = 1; i < parts.length; i++) {
+    res.push(delims[i-1], parts[i])
+  }
+  next(null, res.join('') + '\n')
 }
