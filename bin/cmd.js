@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-//var weekly = require('../')
 var split = require('split2')
 var through = require('through2')
 var strftime = require('strftime')
