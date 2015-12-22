@@ -35,7 +35,7 @@ function write (line, enc, next) {
   var p = parse(time)
   var pt = parset(parts[0])
   var t = p.prev(parts[0])
-  if (p.next(t).toISOString() === pt.toISOString()) {
+  if (timeeq(p.next(t), pt)) {
     t = pt
   }
   var stamp = strftime('%F', t)
@@ -46,4 +46,8 @@ function write (line, enc, next) {
     res.push(delims[i-1], parts[i])
   }
   next(null, res.join('') + '\n')
+}
+
+function timeeq (a, b) {
+  return strftime('%F %T', a) === strftime('%F %T', b)
 }
