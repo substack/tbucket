@@ -14,7 +14,7 @@ module.exports = function (timestr, opts) {
   }
   var sep = opts.separator || opts.sep || /\s+/
   var delim = opts.delimiter || opts.delim || ' '
-  if (timestr === 'week') timestr = 'sunday'
+  if (/^(weeks?|w)$/i.test(timestr)) timestr = 'sunday'
   if (!/^(every|each)\b/.test(timestr)) timestr ='every ' + timestr
   if (typeof sep === 'string' && /^\/.*\/\w*$/.test(sep)) {
     var flags = /\/(\w*)$/.exec(sep)[1]
