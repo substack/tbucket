@@ -18,6 +18,7 @@ module.exports = function (timestr, opts) {
   else if (/^(month(s|ly)?|m)$/i.test(timestr)) timestr = 'the 1st'
   else if (/^(year(s|ly)?|y)$/i.test(timestr)) timestr = 'jan 1'
   else if (!/^(every|each)\b/.test(timestr)) timestr ='every ' + timestr
+  if (!timestr) timestr = 'every day'
 
   if (typeof sep === 'string' && /^\/.*\/\w*$/.test(sep)) {
     var flags = /\/(\w*)$/.exec(sep)[1]

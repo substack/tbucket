@@ -12,7 +12,7 @@ test('weekly', function (t) {
     '2016-06-05 f'
   ]
   t.plan(expected.length)
-  var b = tbucket()
+  var b = tbucket('weekly')
   b.pipe(split()).on('data', function (buf) {
     t.equal(buf.toString(), expected.shift())
   })
